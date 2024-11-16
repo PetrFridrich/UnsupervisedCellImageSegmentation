@@ -9,8 +9,29 @@ from sklearn.mixture import GaussianMixture
 
 
 class Clusterer():
+    """
+    A class for clustering data using multiple clustering algorithms and combining their results.
+
+    This class provides functionality for applying multiple clustering algorithms, relabeling
+    clusters to maintain consistency, performing majority voting across algorithms, and evaluating
+    clustering performance using metrics like Jaccard score.
+
+    Attributes:
+        n_clusters (int): Number of clusters to form.
+        algorithms (list): List of clustering algorithms used for predictions.
+    """
 
     def __init__(self, n_clusters):
+        """
+        Initializes the Clusterer with a specified number of clusters and sets up algorithms.
+
+        Parameters:
+            n_clusters (int): Number of clusters to form.
+
+        Returns:
+            None
+        """
+
         self.n_clusters = n_clusters
 
         self.algorithms = [KMeans(n_clusters=self.n_clusters), 
@@ -23,6 +44,15 @@ class Clusterer():
     
 
     def fit_predict(self, X):
+        """
+        Fits the clustering algorithms to the input data and predicts cluster labels.
+
+        Parameters:
+            X (array-like): Input data for clustering.
+
+        Returns:
+            np.ndarray: Cluster labels after majority voting.
+        """
 
         y = self.apply_algorithms(X)
         y = self.relabel(X,y)
@@ -32,6 +62,15 @@ class Clusterer():
     
 
     def apply_algorithms(self, X):
+        """
+        Applies all clustering algorithms to the input data.
+
+        Parameters:
+            X (array-like): Input data for clustering.
+
+        Returns:
+            np.ndarray: Cluster labels for each algorithm, where each column corresponds to an algorithm.
+        """
         
         y = np.zeros((len(X), len(self.algorithms)))
 
@@ -43,6 +82,16 @@ class Clusterer():
     
 
     def relabel(self, X, y):
+        """
+        Relabels clusters to ensure consistency based on the order of cluster means.
+
+        Parameters:
+            X (array-like): Input data used for clustering.
+            y (np.ndarray): Cluster labels for each algorithm.
+
+        Returns:
+            np.ndarray: Relabeled cluster labels.
+        """
 
         relabeled_y = np.zeros_like(y)
         
@@ -50,7 +99,7 @@ class Clusterer():
         for i in range(len(self.algorithms)):
 
             means = self.calculate_means(X,y[:, i])
-            ordered_means = np.argsort(means)[::-1]
+            ordered_means = np.Parametersort(means)[::-1]
 
             for index, value in enumerate(ordered_means):
 
@@ -60,6 +109,16 @@ class Clusterer():
 
 
     def calculate_means(self, X, y):
+        """
+        Calculates the mean value of each cluster.
+
+        Parameters:
+            X (array-like): Input data used for clustering.
+            y (np.ndarray): Cluster labels.
+
+        Returns:
+            np.ndarray: Array of mean values for each cluster.
+        """
 
         means = list()
 
@@ -72,6 +131,15 @@ class Clusterer():
     
 
     def majority_voting(self, y):
+        """
+        Performs majority voting to determine the final cluster labels.
+
+        Parameters:
+            y (np.ndarray): Cluster labels for each algorithm.
+
+        Returns:
+            np.ndarray: Final cluster labels after majority voting.
+        """
 
         y = mode(y, axis=1).mode
 
@@ -79,6 +147,16 @@ class Clusterer():
 
 
     def eval(self, X, y_target):
+        """
+        Evaluates clustering performance using Jaccard score.
+
+        Parameters:
+            X (array-like): Input data for clustering.
+            y_target (array-like): Ground truth cluster labels.
+
+        Returns:
+            pd.DataFrame: DataFrame containing Jaccard scores for each algorithm and the combined results.
+        """
         
         y = self.apply_algorithms(X)
         y = self.relabel(X,y)
