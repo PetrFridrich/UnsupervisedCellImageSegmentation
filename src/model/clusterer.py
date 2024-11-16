@@ -41,7 +41,7 @@ class Clusterer():
                            GaussianMixture(n_components=self.n_clusters)]
 
         return None
-    
+
 
     def fit_predict(self, X):
         """
@@ -59,7 +59,7 @@ class Clusterer():
         y = self.majority_voting(y)
 
         return y
-    
+
 
     def apply_algorithms(self, X):
         """
@@ -79,7 +79,7 @@ class Clusterer():
             y[:, i] = model.fit_predict(X)
 
         return y
-    
+
 
     def relabel(self, X, y):
         """
@@ -99,7 +99,7 @@ class Clusterer():
         for i in range(len(self.algorithms)):
 
             means = self.calculate_means(X,y[:, i])
-            ordered_means = np.Parametersort(means)[::-1]
+            ordered_means = np.argsort(means)[::-1]
 
             for index, value in enumerate(ordered_means):
 
@@ -128,7 +128,7 @@ class Clusterer():
             means.append(mean)
 
         return np.array(means)
-    
+
 
     def majority_voting(self, y):
         """
