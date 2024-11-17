@@ -1,6 +1,16 @@
 # Unsupervised Cell Image Segmentation
 
-This project implements unsupervised segmentation of cell images using clustering algorithms. It aims to extract meaningful regions and patterns from cell microscopy images without requiring labeled data.
+This project implements an unsupervised approach to segment cell images into distinct regions:
+
++ **Background**
++ **Cytoplasm**
++ **Nuclei**
+
+The primary goal is to identify these structures in microscopy images without the need for labeled data.
+
+The segmentation process utilizes a range of clustering techniques, each with its unique strengths. The **Clusterer** algorithm aggregates the results from all the individual clustering methods using a majority voting mechanism. This ensemble approach combines the strengths of each algorithm, potentially improving overall segmentation performance, especially when individual methods yield conflicting results.
+
+By relying on the collective output of multiple algorithms, the **Clusterer** provides more robust and stable segmentation results. In some cases, it may even outperform individual algorithms, depending on the specific characteristics of the data and images.
 
 ## Features
 
