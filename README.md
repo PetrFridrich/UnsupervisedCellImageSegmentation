@@ -61,7 +61,6 @@ UnsupervisedCellImageSegmentation/
 ├── poetry.lock                             # Poetry lock file to ensure consistent dependencies
 ├── LICENSE                                 # License for the project
 └── README.md                               # This README file
-
 </pre>
 
 ## License
