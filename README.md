@@ -45,7 +45,8 @@ The project is organized as follows:
 UnsupervisedCellImageSegmentation/
 ├── data/                                   # Folder for datasets
 │   ├── images/                                 # Raw cell images
-│   └── labels/                                 # Ground truth labels
+│   ├── labels/                                 # Ground truth labels
+│   └── other_images/                           # Raw cell images without labels
 ├── src/                                    # Folder with source code
 │   ├── analysis/                               # Folder for notebooks related to analysis
 │   │   ├── image_analysis.ipynb                    # Notebook for analyzing input images
